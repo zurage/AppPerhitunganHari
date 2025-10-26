@@ -9,12 +9,36 @@
  */
 public class FormPenghitungHari extends javax.swing.JFrame {
 
+    private void sinkronKeKalender() {
+    int bulan = cmbBulan.getSelectedIndex(); // 0 = Januari
+    int tahun = (int) spnTahun.getValue();
+
+    java.util.Calendar cal = java.util.Calendar.getInstance();
+    cal.set(java.util.Calendar.YEAR, tahun);
+    cal.set(java.util.Calendar.MONTH, bulan);
+    cal.set(java.util.Calendar.DAY_OF_MONTH, 1);
+    calTanggal.setDate(cal.getTime());
+}
+
+    private void sinkronDariKalender() {
+        java.util.Calendar cal = calTanggal.getCalendar();
+        if (cal == null) return; // safety guard
+        int bulan = cal.get(java.util.Calendar.MONTH);
+        int tahun = cal.get(java.util.Calendar.YEAR);
+        cmbBulan.setSelectedIndex(bulan);
+        spnTahun.setValue(tahun);
+}
     /**
      * Creates new form FormPenghitungHari
      */
     public FormPenghitungHari() {
         initComponents();
-    }
+        sinkronKeKalender();
+
+    cmbBulan.addActionListener(evt -> sinkronKeKalender());
+    spnTahun.addChangeListener(evt -> sinkronKeKalender());
+    calTanggal.addPropertyChangeListener("calendar", evt -> sinkronDariKalender());
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,6 +87,11 @@ public class FormPenghitungHari extends javax.swing.JFrame {
         });
 
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         lblJumlahHari.setText("Jumlah Hari");
 
@@ -193,6 +222,20 @@ public class FormPenghitungHari extends javax.swing.JFrame {
             lblHariPertama.setText("Hari Pertama: " + formatHari(hariPertama));
             lblHariTerakhir.setText("Hari Terakhir: " + formatHari(hariTerakhir));        // TODO add your handling code here:
     }//GEN-LAST:event_btnHitungActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        cmbBulan.setSelectedIndex(0);
+            spnTahun.setValue(2025);
+            lblJumlahHari.setText("");
+            lblHariPertama.setText("");
+            lblHariTerakhir.setText("");
+            lblSelisih.setText("");
+            calTanggal.setDate(new java.util.Date());
+            dcTanggal1.setDate(null);
+            dcTanggal2.setDate(null);
+            cmbBulan.requestFocus();
+                // TODO add your handling code here:
+    }//GEN-LAST:event_btnClearActionPerformed
 
     /**
      * @param args the command line arguments
