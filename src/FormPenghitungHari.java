@@ -106,6 +106,11 @@ public class FormPenghitungHari extends javax.swing.JFrame {
         lblSelisih.setText("Selisih");
 
         btnSelisih.setText("Selisih");
+        btnSelisih.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelisihActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,11 +147,12 @@ public class FormPenghitungHari extends javax.swing.JFrame {
                                     .addComponent(btnSelisih, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(lblHariPertama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(lblHariTerakhir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addComponent(lblSelisih, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(dcTanggal2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lblSelisih, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(dcTanggal2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -163,9 +169,7 @@ public class FormPenghitungHari extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(dcTanggal2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18)
-                        .addComponent(lblSelisih))
+                            .addComponent(jLabel7)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblBulan)
@@ -186,6 +190,8 @@ public class FormPenghitungHari extends javax.swing.JFrame {
                         .addComponent(lblHariTerakhir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSelisih)))
+                .addGap(18, 18, 18)
+                .addComponent(lblSelisih)
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
@@ -236,6 +242,22 @@ public class FormPenghitungHari extends javax.swing.JFrame {
             cmbBulan.requestFocus();
                 // TODO add your handling code here:
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnSelisihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelisihActionPerformed
+    java.util.Date t1 = dcTanggal1.getDate();
+        java.util.Date t2 = dcTanggal2.getDate();
+
+        if (t1 == null || t2 == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Pilih dua tanggal terlebih dahulu!");
+            return;
+        }
+
+        long selisih = java.time.temporal.ChronoUnit.DAYS.between(
+            t1.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate(),
+            t2.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate());
+
+        lblSelisih.setText("Selisih Hari: " + Math.abs(selisih) + " hari");        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSelisihActionPerformed
 
     /**
      * @param args the command line arguments
